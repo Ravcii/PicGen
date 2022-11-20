@@ -3,7 +3,7 @@ package main
 import "os"
 
 func main() {
-	img, err := NewImage(200, 200)
+	img, err := NewImage(50, 50)
 	if err != nil {
 		panic(err)
 	}
