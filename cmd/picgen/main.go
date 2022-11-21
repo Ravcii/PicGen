@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	picgen "github.com/Ravcii/PicGen"
+	"github.com/Ravcii/PicGen/pkg/picgen"
 )
 
 func main() {
@@ -12,7 +12,7 @@ func main() {
 		panic(err)
 	}
 
-	f, err := os.Create("../../test.jpg")
+	f, err := os.Create("test.jpg")
 	if err != nil {
 		panic(err)
 	}
