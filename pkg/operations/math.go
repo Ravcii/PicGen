@@ -4,10 +4,10 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-func Diff[T constraints.Float | constraints.Integer](from, to T) T {
+func Diff[T constraints.Float | constraints.Integer](from, to T) int {
 	if from > to {
-		return from - to
+		return -int(from - to)
 	}
 
-	return to - from
+	return int(to - from)
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	img, err := picgen.NewImage(100, 100)
+	img, err := picgen.NewImage(1000, 1000)
 	if err != nil {
 		panic(err)
 	}

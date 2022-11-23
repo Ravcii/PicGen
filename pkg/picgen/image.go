@@ -10,6 +10,8 @@ import (
 	"time"
 )
 
+const Quality = 100
+
 var basePallete = color.Palette{
 	color.RGBA{0, 0, 0, 0},
 	color.RGBA{255, 0, 0, 1},
@@ -26,7 +28,6 @@ type Image struct {
 }
 
 func NewImage(x, y int, params ...param) (*Image, error) {
-	rand.Seed(time.Now().UTC().UnixNano())
 	image := &Image{x: x, y: y, Palette: nil}
 
 	for _, param := range params {
@@ -46,17 +47,16 @@ func NewImage(x, y int, params ...param) (*Image, error) {
 func (img *Image) Generate(out io.Writer) error {
 	paletted := image.NewRGBA(image.Rect(0, 0, img.x+1, img.y+1))
 
-	gradient := NewGradient(color.RGBA{255, 0, 0, 255}, color.RGBA{0, 0, 255, 255})
+	gradient := NewGradient(color.RGBA{237, 27, 101, 0}, color.RGBA{129, 12, 68, 0})
 
 	for x := 0; x <= img.x; x++ {
 		for y := 0; y <= img.y; y++ {
 			c := gradient.At(y, img.y)
-			fmt.Printf("x %d y %d c %v\n", x, y, c)
-			paletted.Set(x, y, c)
+			go paletted.Set(x, y, c)
 		}
 	}
 
-	err := jpeg.Encode(out, paletted, &jpeg.Options{Quality: 100})
+	err := jpeg.Encode(out, paletted, &jpeg.Options{Quality: Quality})
 	if err != nil {
 		return fmt.Errorf("error while eccoding the image: %w", err)
 	}
@@ -65,7 +65,9 @@ func (img *Image) Generate(out io.Writer) error {
 }
 
 func (img *Image) RandomColorIndex() uint8 {
-	return uint8(rand.Intn(len(img.Palette)))
+	rand.Seed(time.Now().UTC().UnixNano())
+
+	return uint8(rand.Intn(len(img.Palette))) //nolint:gosec
 }
 
 func (img *Image) RandomColor() color.Color {
