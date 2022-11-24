@@ -16,6 +16,7 @@ vendor/
 
 # VsCode
 .vscode
+*.code-workspace
 
 # Project-related
 test.jpg
